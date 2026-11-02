@@ -1,0 +1,732 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Informatics B. | Absensi Kelas</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    color: #263445;
+    padding: 25px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+header {
+    background: #243b53;
+    color: white;
+    padding: 28px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    font-size: 26px;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #d6e2ef;
+    font-size: 14px;
+}
+
+.info {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.info span {
+    background: #ffffff20;
+    padding: 9px 14px;
+    border-radius: 7px;
+    font-size: 13px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e5eaf0;
+}
+
+.stat-card p {
+    color: #718096;
+    font-size: 13px;
+}
+
+.stat-card h2 {
+    margin-top: 10px;
+    font-size: 27px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 330px 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    border: 1px solid #e5eaf0;
+}
+
+.card h3 {
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    margin: 13px 0 7px;
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #dce3eb;
+    border-radius: 7px;
+    outline: none;
+    background: #fff;
+    color: #263445;
+}
+
+input:focus, select:focus {
+    border-color: #426b91;
+}
+
+button {
+    border: none;
+    padding: 11px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .2s;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+.btn-primary {
+    background: #294c70;
+    color: white;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn-export {
+    background: #e5edf5;
+    color: #294c70;
+}
+
+.btn-delete {
+    background: #fff0f0;
+    color: #d04444;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 17px;
+    flex-wrap: wrap;
+}
+
+.search {
+    max-width: 220px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 550px;
+}
+
+th, td {
+    padding: 13px 10px;
+    border-bottom: 1px solid #edf0f4;
+    text-align: left;
+    font-size: 13px;
+}
+
+th {
+    color: #718096;
+    background: #f8fafc;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.Hadir {
+    background: #e4f6ec;
+    color: #21834c;
+}
+
+.Izin {
+    background: #fff3d9;
+    color: #a66b00;
+}
+
+.Sakit {
+    background: #e7f0ff;
+    color: #3269b0;
+}
+
+.Alfa {
+    background: #ffe6e6;
+    color: #c03939;
+}
+
+.delete-row {
+    background: #fff0f0;
+    color: #c03939;
+    padding: 6px 9px;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: #8995a3;
+}
+
+.right-col { display:flex; flex-direction:column; gap:20px; min-width:0; }
+.quick-list { margin-top:14px; max-height:520px; overflow-y:auto; border-top:1px solid #edf0f4; }
+.quick-item { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 2px; border-bottom:1px solid #edf0f4; font-size:13px; flex-wrap:wrap; }
+.quick-btns { display:flex; gap:6px; }
+.q-btn { background:#f1f4f8; color:#718096; padding:7px 11px; font-size:12px; }
+.q-btn.aktif.Hadir { background:#21834c; color:#fff; }
+.q-btn.aktif.Izin { background:#d89100; color:#fff; }
+.q-btn.aktif.Sakit { background:#3269b0; color:#fff; }
+.q-btn.aktif.Alfa { background:#c03939; color:#fff; }
+.left-col { display:flex; flex-direction:column; gap:20px; }
+.btn-secondary { background:#e5edf5; color:#294c70; width:100%; margin-top:10px; }
+.mhs-list { max-height:260px; overflow-y:auto; margin-top:14px; border-top:1px solid #edf0f4; }
+.mhs-item { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:9px 2px; border-bottom:1px solid #edf0f4; font-size:13px; }
+.mhs-item small { color:#718096; }
+textarea { width:100%; padding:11px; border:1px solid #dce3eb; border-radius:7px; outline:none; min-height:80px; resize:vertical; color:#263445; }
+details summary { cursor:pointer; font-size:13px; font-weight:600; margin-top:14px; color:#294c70; }
+footer {
+    text-align: center;
+    color: #8995a3;
+    font-size: 12px;
+    margin-top: 30px;
+}
+
+@media(max-width: 800px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 450px) {
+    body {
+        padding: 12px;
+    }
+
+    header {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>Class Informatics B.</h1>
+    <p>Sistem pencatatan kehadiran mahasiswa secara sederhana dan terorganisir.</p>
+
+    <div class="info">
+        <span>🎓 Teknik Informatika</span>
+        <span>📚 Angkatan 2026</span>
+        <span id="tanggal"></span>
+    </div>
+</header>
+
+<section class="stats">
+    <div class="stat-card">
+        <p>Total Mahasiswa</p>
+        <h2 id="total">0</h2>
+    </div>
+
+    <div class="stat-card">
+        <p>Hadir</p>
+        <h2 id="hadir">0</h2>
+    </div>
+
+    <div class="stat-card">
+        <p>Izin / Sakit</p>
+        <h2 id="izinSakit">0</h2>
+    </div>
+
+    <div class="stat-card">
+        <p>Alfa</p>
+        <h2 id="alfa">0</h2>
+    </div>
+</section>
+
+<section class="content">
+
+<div class="left-col">
+
+<div class="card">
+    <h3>Data Mahasiswa (<span id="jmlMhs">0</span>)</h3>
+
+    <form id="mhsForm">
+        <label>Nama Mahasiswa</label>
+        <input type="text" id="mhsNama" placeholder="Masukkan nama" required>
+        <label>NIM</label>
+        <input type="text" id="mhsNim" placeholder="Masukkan NIM" required>
+        <button type="submit" class="btn-primary">+ Tambah Mahasiswa</button>
+    </form>
+
+    <details>
+        <summary>Impor banyak sekaligus</summary>
+        <label>Satu baris per mahasiswa: Nama, NIM</label>
+        <textarea id="impor" placeholder="Budi Santoso, 2601001&#10;Siti Aminah, 2601002"></textarea>
+        <button type="button" class="btn-secondary" onclick="imporMahasiswa()">Impor Daftar</button>
+    </details>
+
+    <div class="mhs-list" id="daftarMhs"></div>
+</div>
+
+</div>
+
+<div class="right-col">
+
+<div class="card">
+    <h3>Absensi Cepat</h3>
+    <label style="margin-top:0">Mata Kuliah</label>
+    <input type="text" id="matkul" placeholder="Contoh: Algoritma" oninput="tampilkanCepat()">
+    <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+        <button type="button" class="btn-export" onclick="tandaiSemua('Hadir')">Semua Hadir</button>
+        <button type="button" class="btn-delete" onclick="resetMatkul()">Reset Mata Kuliah Ini</button>
+    </div>
+    <div class="quick-list" id="daftarCepat"></div>
+</div>
+
+<div class="card">
+    <div class="table-header">
+        <h3>Daftar Kehadiran</h3>
+        <input type="text" class="search" id="search"
+        placeholder="Cari mahasiswa...">
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama / NIM</th>
+                    <th>Mata Kuliah</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody id="daftarAbsen">
+                <tr>
+                    <td colspan="5" class="empty">
+                        Belum ada data absensi.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+        <button class="btn-export" onclick="exportCSV()">
+            ↓ Export CSV
+        </button>
+
+        <button class="btn-delete" onclick="hapusSemua()">
+            Hapus Semua
+        </button>
+    </div>
+</div>
+
+</div>
+
+</section>
+
+<footer>
+    © 2026 Class Attendance System · Teknik Informatika
+</footer>
+
+</div>
+
+<script>
+let dataAbsen = JSON.parse(
+    localStorage.getItem("dataAbsen")
+) || [];
+
+let dataMhs = JSON.parse(
+    localStorage.getItem("dataMahasiswa")
+) || [];
+
+// Data awal mahasiswa (36 orang), ditambahkan sekali saja
+const mahasiswaAwal = [
+    { nama: "Adinda Aprillia Nur Cantikka", nim: "1412260072" },
+    { nama: "Aditya Dwi Prasetyo Maulana", nim: "1412260045" },
+    { nama: "Ahmad Attar El Farizy", nim: "1412260046" },
+    { nama: "Ainun Nihaya", nim: "1412260063" },
+    { nama: "Avian Permana", nim: "1412260050" },
+    { nama: "Bachtiar Abrisam Fernando", nim: "1412260044" },
+    { nama: "Dhiki Pratama", nim: "1412260070" },
+    { nama: "Evander Javas", nim: "1412260056" },
+    { nama: "Fauzan Vairozi", nim: "1412260069" },
+    { nama: "Fawaza Indranata", nim: "1412260061" },
+    { nama: "Fith Shalih Hamidic", nim: "1412260062" },
+    { nama: "Herdi Alfian Susanto", nim: "1412260068" },
+    { nama: "Ilham Rosyid Pramana", nim: "1412260058" },
+    { nama: "Khairunnisa Yania Afrieza", nim: "1412260039" },
+    { nama: "Khozin Alwi Mubarok", nim: "1412260036" },
+    { nama: "Krisna Tri Agustian", nim: "1412260041" },
+    { nama: "Krisnahadi Jayawardana", nim: "1412260067" },
+    { nama: "M. Rizki Pratama", nim: "1412260059" },
+    { nama: "Maulana Abid Ar-Rasyiid", nim: "1412260047" },
+    { nama: "Miftachul Ulum Satria Purwandika", nim: "1412260060" },
+    { nama: "Mochammad Raffi", nim: "1412260043" },
+    { nama: "Muhammad Alfawwazi Arief", nim: "1412260064" },
+    { nama: "Muhammad Istadam Dzikra", nim: "1412260048" },
+    { nama: "Muhammad Reify Al Faiqul Muschab", nim: "1412260071" },
+    { nama: "Muhammad Zahrul Maula", nim: "1412260066" },
+    { nama: "Nathaniela Rizqi Fajarrisma", nim: "1412260052" },
+    { nama: "Niha Atika Sukma", nim: "1412260022" },
+    { nama: "Putri Zahrotul Maulida", nim: "1412260042" },
+    { nama: "Saadatin Nafisah Widiya Tuty", nim: "1412260031" },
+    { nama: "Sahnaz Zahra", nim: "1412260032" },
+    { nama: "Salma Nur Fauziyah", nim: "1412260054" },
+    { nama: "Yogi Tri Nur Rohman", nim: "1412260049" },
+    { nama: "Muhammad Yusuf Arifin", nim: "1412260055" },
+    { nama: "Refaldo Luthfi Oktahibatullah R", nim: "1412260057" },
+    { nama: "Yulianitasari", nim: "1412260053" },
+    { nama: "Roro Anggi Sekar Pembayun", nim: "1412260073" }
+];
+
+if (!localStorage.getItem("seedMhsV1")) {
+    mahasiswaAwal.forEach(m => {
+        if (!dataMhs.some(x => x.nim === m.nim)) dataMhs.push(m);
+    });
+    localStorage.setItem("dataMahasiswa", JSON.stringify(dataMhs));
+    localStorage.setItem("seedMhsV1", "1");
+}
+
+function simpanMhs() {
+    localStorage.setItem("dataMahasiswa", JSON.stringify(dataMhs));
+}
+
+function tampilkanMhs() {
+    const list = document.getElementById("daftarMhs");
+    document.getElementById("jmlMhs").textContent = dataMhs.length;
+
+    list.innerHTML = dataMhs.length ? "" :
+        '<div class="empty">Belum ada data mahasiswa.</div>';
+    dataMhs.forEach((m, i) => {
+        list.innerHTML += `
+            <div class="mhs-item">
+                <div><b>${escapeHTML(m.nama)}</b><br><small>${escapeHTML(m.nim)}</small></div>
+                <button class="delete-row" onclick="hapusMhs(${i})">Hapus</button>
+            </div>`;
+    });
+
+    tampilkanData();
+}
+
+document.getElementById("mhsForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const nama = document.getElementById("mhsNama").value.trim();
+    const nim = document.getElementById("mhsNim").value.trim();
+    if (!nama || !nim) return;
+    if (dataMhs.some(m => m.nim === nim)) {
+        alert("NIM sudah terdaftar!");
+        return;
+    }
+    dataMhs.push({ nama, nim });
+    simpanMhs();
+    tampilkanMhs();
+    this.reset();
+});
+
+function imporMahasiswa() {
+    const baris = document.getElementById("impor").value.split("\n");
+    let tambah = 0;
+    baris.forEach(b => {
+        const [nama, nim] = b.split(/[,;\t]/).map(x => (x || "").trim());
+        if (nama && nim && !dataMhs.some(m => m.nim === nim)) {
+            dataMhs.push({ nama, nim });
+            tambah++;
+        }
+    });
+    simpanMhs();
+    tampilkanMhs();
+    document.getElementById("impor").value = "";
+    alert(tambah + " mahasiswa berhasil ditambahkan.");
+}
+
+function hapusMhs(i) {
+    if (confirm("Hapus mahasiswa ini dari daftar?")) {
+        dataMhs.splice(i, 1);
+        simpanMhs();
+        tampilkanMhs();
+    }
+}
+
+document.getElementById("tanggal").textContent =
+    "📅 " + new Date().toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+
+function simpanData() {
+    localStorage.setItem(
+        "dataAbsen",
+        JSON.stringify(dataAbsen)
+    );
+}
+
+function matkulAktif() {
+    return document.getElementById("matkul").value.trim();
+}
+
+function cariAbsen(nim, matkul) {
+    return dataAbsen.findIndex(a => a.nim === nim &&
+        a.matkul.toLowerCase() === matkul.toLowerCase());
+}
+
+function setStatus(i, status) {
+    const matkul = matkulAktif();
+    if (!matkul) {
+        alert("Isi mata kuliah terlebih dahulu!");
+        document.getElementById("matkul").focus();
+        return;
+    }
+    const m = dataMhs[i];
+    const idx = cariAbsen(m.nim, matkul);
+    if (idx === -1) {
+        dataAbsen.push({ nama: m.nama, nim: m.nim, matkul, status });
+    } else if (dataAbsen[idx].status === status) {
+        dataAbsen.splice(idx, 1);          // klik lagi = batalkan
+    } else {
+        dataAbsen[idx].status = status;
+    }
+    simpanData();
+    tampilkanData();
+}
+
+function tandaiSemua(status) {
+    const matkul = matkulAktif();
+    if (!dataMhs.length) { alert("Belum ada data mahasiswa!"); return; }
+    if (!matkul) { alert("Isi mata kuliah terlebih dahulu!"); return; }
+    dataMhs.forEach(m => {
+        const idx = cariAbsen(m.nim, matkul);
+        if (idx === -1) dataAbsen.push({ nama: m.nama, nim: m.nim, matkul, status });
+        else dataAbsen[idx].status = status;
+    });
+    simpanData();
+    tampilkanData();
+}
+
+function resetMatkul() {
+    const matkul = matkulAktif();
+    if (!matkul) { alert("Isi mata kuliah terlebih dahulu!"); return; }
+    if (confirm("Hapus semua absensi untuk mata kuliah ini?")) {
+        dataAbsen = dataAbsen.filter(a =>
+            a.matkul.toLowerCase() !== matkul.toLowerCase());
+        simpanData();
+        tampilkanData();
+    }
+}
+
+function tampilkanCepat() {
+    const box = document.getElementById("daftarCepat");
+    const matkul = matkulAktif();
+    if (!dataMhs.length) {
+        box.innerHTML = '<div class="empty">Belum ada data mahasiswa.</div>';
+        return;
+    }
+    box.innerHTML = dataMhs.map((m, i) => {
+        const idx = matkul ? cariAbsen(m.nim, matkul) : -1;
+        const cur = idx === -1 ? "" : dataAbsen[idx].status;
+        const btns = ["Hadir", "Izin", "Sakit", "Alfa"].map(st =>
+            `<button type="button" class="q-btn ${st} ${cur === st ? "aktif" : ""}"
+                onclick="setStatus(${i}, '${st}')">${st}</button>`
+        ).join("");
+        return `<div class="quick-item">
+            <div><b>${i + 1}. ${escapeHTML(m.nama)}</b><br><small>${escapeHTML(m.nim)}</small></div>
+            <div class="quick-btns">${btns}</div>
+        </div>`;
+    }).join("");
+}
+
+function tampilkanData() {
+    tampilkanCepat();
+    const tbody = document.getElementById("daftarAbsen");
+    const keyword = document.getElementById("search").value.toLowerCase();
+
+    const hasil = dataAbsen.filter(item =>
+        item.nama.toLowerCase().includes(keyword) ||
+        item.nim.toLowerCase().includes(keyword) ||
+        item.matkul.toLowerCase().includes(keyword)
+    );
+
+    tbody.innerHTML = "";
+
+    if (hasil.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+                    Tidak ada data ditemukan.
+                </td>
+            </tr>`;
+    }
+
+    hasil.forEach((item) => {
+        const index = dataAbsen.indexOf(item);
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>
+                    <b>${escapeHTML(item.nama)}</b><br>
+                    <small>${escapeHTML(item.nim)}</small>
+                </td>
+                <td>${escapeHTML(item.matkul)}</td>
+                <td>
+                    <span class="status ${item.status}">
+                        ${item.status}
+                    </span>
+                </td>
+                <td>
+                    <button class="delete-row"
+                    onclick="hapusData(${index})">
+                        Hapus
+                    </button>
+                </td>
+            </tr>`;
+    });
+
+    document.getElementById("total").textContent = dataMhs.length;
+
+    document.getElementById("hadir").textContent =
+        dataAbsen.filter(x => x.status === "Hadir").length;
+
+    document.getElementById("izinSakit").textContent =
+        dataAbsen.filter(x =>
+            x.status === "Izin" || x.status === "Sakit"
+        ).length;
+
+    document.getElementById("alfa").textContent =
+        dataAbsen.filter(x => x.status === "Alfa").length;
+}
+
+function escapeHTML(text) {
+    return String(text).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function hapusData(index) {
+    if (confirm("Hapus data absensi ini?")) {
+        dataAbsen.splice(index, 1);
+        simpanData();
+        tampilkanData();
+    }
+}
+
+function hapusSemua() {
+    if (confirm("Yakin ingin menghapus seluruh data?")) {
+        dataAbsen = [];
+        simpanData();
+        tampilkanData();
+    }
+}
+
+function exportCSV() {
+    if (dataAbsen.length === 0) {
+        alert("Belum ada data untuk diekspor!");
+        return;
+    }
+
+    const rows = [
+        ["Nama", "NIM", "Mata Kuliah", "Status"],
+        ...dataAbsen.map(x => [
+            x.nama, x.nim, x.matkul, x.status
+        ])
+    ];
+
+    const csv = "\uFEFF" + rows.map(row =>
+        row.map(value =>
+            '"' + String(value).replace(/"/g, '""') + '"'
+        ).join(",")
+    ).join("\n");
+
+    const blob = new Blob([csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "data-absensi.csv";
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
+document.getElementById("search").addEventListener(
+    "input", tampilkanData
+);
+
+tampilkanMhs();
+</script>
+
+</body>
+</html>
